@@ -11,20 +11,20 @@ public class Student {
         return id;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
     }
 
-    @Override
-    public String toString() {
-        return id + " - " + name;
-    }
-
-    public void setId(String newId) {
-        this.id = newId;
-    }
-
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return name + " (" + id + ")";
     }
 }

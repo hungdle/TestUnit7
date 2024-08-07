@@ -13,16 +13,23 @@ public class Grade {
         return studentId;
     }
 
+    public void setStudentId(String studentId) {
+        this.studentId = studentId;
+    }
+
     public String getCourseCode() {
         return courseCode;
+    }
+
+    public void setCourseCode(String courseCode) {
+        this.courseCode = courseCode;
     }
 
     public String getGrade() {
         return grade;
     }
 
-    @Override
-    public String toString() {
-        return courseCode + ": " + grade;
+    public void setGrade(String grade) {
+        this.grade = grade;
     }
 }
