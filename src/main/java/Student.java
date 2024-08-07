@@ -19,4 +19,12 @@ public class Student {
     public String toString() {
         return id + " - " + name;
     }
+
+    public void setId(String newId) {
+        this.id = newId;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

@@ -63,4 +63,12 @@ public class StudentManager {
         }
         return courseGrades;
     }
+
+    public void updateStudent(String oldId, String newId, String newName) {
+        Student student = getStudentById(oldId);
+        if (student != null) {
+            student.setId(newId);
+            student.setName(newName);
+        }
+    }
 }
