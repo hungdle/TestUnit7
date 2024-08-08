@@ -12,10 +12,12 @@ public class StudentManager {
         grades = new ArrayList<>();
     }
 
+    // Add a new student
     public void addStudent(Student student) {
         students.add(student);
     }
 
+    // Update existing student information
     public void updateStudent(String oldId, Student updatedStudent) {
         for (int i = 0; i < students.size(); i++) {
             if (students.get(i).getId().equals(oldId)) {
@@ -25,41 +27,27 @@ public class StudentManager {
         }
     }
 
+    // Add a new course
     public void addCourse(Course course) {
         courses.add(course);
     }
 
+    // Enroll a student in a course
     public void enrollStudent(String studentId, String courseCode) {
         grades.add(new Grade(studentId, courseCode, null)); // Add a grade with null initially
     }
 
+    // Get all students
     public List<Student> getStudents() {
         return students;
     }
 
+    // Get all courses
     public List<Course> getCourses() {
         return courses;
     }
 
-    public List<Grade> getGrades(String studentId) {
-        List<Grade> studentGrades = new ArrayList<>();
-        for (Grade grade : grades) {
-            if (grade.getStudentId().equals(studentId)) {
-                studentGrades.add(grade);
-            }
-        }
-        return studentGrades;
-    }
-
-    public void assignGrade(String studentId, String courseCode, String grade) {
-        for (Grade g : grades) {
-            if (g.getStudentId().equals(studentId) && g.getCourseCode().equals(courseCode)) {
-                g.setGrade(grade);
-                return;
-            }
-        }
-    }
-
+    // Get grades for a specific student
     public List<Grade> getGradesForStudent(String studentId) {
         List<Grade> studentGrades = new ArrayList<>();
         for (Grade grade : grades) {
@@ -70,6 +58,7 @@ public class StudentManager {
         return studentGrades;
     }
 
+    // Get grades for a specific course
     public List<Grade> getGradesForCourse(String courseCode) {
         List<Grade> courseGrades = new ArrayList<>();
         for (Grade grade : grades) {
@@ -80,6 +69,7 @@ public class StudentManager {
         return courseGrades;
     }
 
+    // Get unenrolled students for a specific course
     public List<Student> getUnEnrolledStudents(String courseCode) {
         List<Student> unEnrolledStudents = new ArrayList<>();
         for (Student student : students) {
@@ -97,6 +87,7 @@ public class StudentManager {
         return unEnrolledStudents;
     }
 
+    // Get enrolled courses for a specific student
     public List<Course> getEnrolledCourses(String studentId) {
         List<Course> enrolledCourses = new ArrayList<>();
         for (Grade grade : grades) {
@@ -110,5 +101,38 @@ public class StudentManager {
             }
         }
         return enrolledCourses;
+    }
+
+    // Assign a grade to a student for a specific course
+// Assign a grade to a student for a specific course
+    public void assignGrade(String studentId, String courseCode, String grade) {
+        for (Grade g : grades) {
+            if (g.getStudentId().equals(studentId) && g.getCourseCode().equals(courseCode)) {
+                g.setGrade(grade);
+                return;
+            }
+        }
+        // If not found, add a new grade entry
+        grades.add(new Grade(studentId, courseCode, grade));
+    }
+
+    // Get a grade for a student in a specific course
+    public String getGrade(String studentId, String courseCode) {
+        for (Grade grade : grades) {
+            if (grade.getStudentId().equals(studentId) && grade.getCourseCode().equals(courseCode)) {
+                return grade.getGrade();
+            }
+        }
+        return ""; // Return empty string if no grade found
+    }
+
+    // Get a course by its name
+    public Course getCourseByName(String courseName) {
+        for (Course course : courses) {
+            if (course.getName().equalsIgnoreCase(courseName)) {
+                return course;
+            }
+        }
+        return null; // Return null if no course with that name is found
     }
 }
