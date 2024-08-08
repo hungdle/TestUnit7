@@ -50,4 +50,65 @@ public class StudentManager {
         }
         return studentGrades;
     }
+
+    public void assignGrade(String studentId, String courseCode, String grade) {
+        for (Grade g : grades) {
+            if (g.getStudentId().equals(studentId) && g.getCourseCode().equals(courseCode)) {
+                g.setGrade(grade);
+                return;
+            }
+        }
+    }
+
+    public List<Grade> getGradesForStudent(String studentId) {
+        List<Grade> studentGrades = new ArrayList<>();
+        for (Grade grade : grades) {
+            if (grade.getStudentId().equals(studentId)) {
+                studentGrades.add(grade);
+            }
+        }
+        return studentGrades;
+    }
+
+    public List<Grade> getGradesForCourse(String courseCode) {
+        List<Grade> courseGrades = new ArrayList<>();
+        for (Grade grade : grades) {
+            if (grade.getCourseCode().equals(courseCode)) {
+                courseGrades.add(grade);
+            }
+        }
+        return courseGrades;
+    }
+
+    public List<Student> getUnEnrolledStudents(String courseCode) {
+        List<Student> unEnrolledStudents = new ArrayList<>();
+        for (Student student : students) {
+            boolean enrolled = false;
+            for (Grade grade : grades) {
+                if (grade.getStudentId().equals(student.getId()) && grade.getCourseCode().equals(courseCode)) {
+                    enrolled = true;
+                    break;
+                }
+            }
+            if (!enrolled) {
+                unEnrolledStudents.add(student);
+            }
+        }
+        return unEnrolledStudents;
+    }
+
+    public List<Course> getEnrolledCourses(String studentId) {
+        List<Course> enrolledCourses = new ArrayList<>();
+        for (Grade grade : grades) {
+            if (grade.getStudentId().equals(studentId)) {
+                for (Course course : courses) {
+                    if (course.getCode().equals(grade.getCourseCode())) {
+                        enrolledCourses.add(course);
+                        break;
+                    }
+                }
+            }
+        }
+        return enrolledCourses;
+    }
 }
