@@ -79,38 +79,6 @@ public class StudentManager {
         return courses;
     }
 
-//    /**
-//     * Returns a list of grades for a specific student.
-//     *
-//     * @param studentId the ID of the student
-//     * @return a list of Grade objects for the student
-//     */
-//    public List<Grade> getGradesForStudent(String studentId) {
-//        List<Grade> studentGrades = new ArrayList<>();
-//        for (Grade grade : grades) {
-//            if (grade.getStudentId().equals(studentId)) {
-//                studentGrades.add(grade);
-//            }
-//        }
-//        return studentGrades;
-//    }
-
-//    /**
-//     * Returns a list of grades for a specific course.
-//     *
-//     * @param courseCode the code of the course
-//     * @return a list of Grade objects for the course
-//     */
-//    public List<Grade> getGradesForCourse(String courseCode) {
-//        List<Grade> courseGrades = new ArrayList<>();
-//        for (Grade grade : grades) {
-//            if (grade.getCourseCode().equals(courseCode)) {
-//                courseGrades.add(grade);
-//            }
-//        }
-//        return courseGrades;
-//    }
-
     /**
      * Returns a list of students who are not enrolled in the specified course.
      *
@@ -188,19 +156,4 @@ public class StudentManager {
         }
         return ""; // Return empty string if no grade found
     }
-
-//    /**
-//     * Returns the Course object with the given name, or null if no such course exists.
-//     *
-//     * @param courseName the name of the course to find
-//     * @return the Course object with the given name, or null if no such course exists
-//     */
-//    public Course getCourseByName(String courseName) {
-//        for (Course course : courses) {
-//            if (course.getName().equalsIgnoreCase(courseName)) {
-//                return course;
-//            }
-//        }
-//        return null; // Return null if no course with that name is found
-//    }
 }
