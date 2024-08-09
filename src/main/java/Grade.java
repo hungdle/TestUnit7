@@ -28,14 +28,14 @@ public class Grade {
         return studentId;
     }
 
-    /**
-     * Sets the student ID.
-     *
-     * @param studentId the new student ID
-     */
-    public void setStudentId(String studentId) {
-        this.studentId = studentId;
-    }
+//    /**
+//     * Sets the student ID.
+//     *
+//     * @param studentId the new student ID
+//     */
+//    public void setStudentId(String studentId) {
+//        this.studentId = studentId;
+//    }
 
     /**
      * Returns the course code.
@@ -46,14 +46,14 @@ public class Grade {
         return courseCode;
     }
 
-    /**
-     * Sets the course code.
-     *
-     * @param courseCode the new course code
-     */
-    public void setCourseCode(String courseCode) {
-        this.courseCode = courseCode;
-    }
+//    /**
+//     * Sets the course code.
+//     *
+//     * @param courseCode the new course code
+//     */
+//    public void setCourseCode(String courseCode) {
+//        this.courseCode = courseCode;
+//    }
 
     /**
      * Returns the grade assigned.

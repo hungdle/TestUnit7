@@ -25,14 +25,14 @@ public class Student {
         return id;
     }
 
-    /**
-     * Sets the student's ID.
-     *
-     * @param id the new student ID
-     */
-    public void setId(String id) {
-        this.id = id;
-    }
+//    /**
+//     * Sets the student's ID.
+//     *
+//     * @param id the new student ID
+//     */
+//    public void setId(String id) {
+//        this.id = id;
+//    }
 
     /**
      * Returns the student's name.
@@ -43,14 +43,14 @@ public class Student {
         return name;
     }
 
-    /**
-     * Sets the student's name.
-     *
-     * @param name the new student name
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
+//    /**
+//     * Sets the student's name.
+//     *
+//     * @param name the new student name
+//     */
+//    public void setName(String name) {
+//        this.name = name;
+//    }
 
     /**
      * Returns a string representation of the Student object in the format "name (id)".
@@ -59,6 +59,9 @@ public class Student {
      */
     @Override
     public String toString() {
+        if (id == null || name == null) {
+            return "(Select)";
+        }
         return name + " (" + id + ")";
     }
 }

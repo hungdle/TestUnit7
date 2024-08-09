@@ -25,14 +25,14 @@ public class Course {
         return code;
     }
 
-    /**
-     * Sets the course code.
-     *
-     * @param code the new course code
-     */
-    public void setCode(String code) {
-        this.code = code;
-    }
+//    /**
+//     * Sets the course code.
+//     *
+//     * @param code the new course code
+//     */
+//    public void setCode(String code) {
+//        this.code = code;
+//    }
 
     /**
      * Returns the course name.
@@ -43,14 +43,14 @@ public class Course {
         return name;
     }
 
-    /**
-     * Sets the course name.
-     *
-     * @param name the new course name
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
+//    /**
+//     * Sets the course name.
+//     *
+//     * @param name the new course name
+//     */
+//    public void setName(String name) {
+//        this.name = name;
+//    }
 
     /**
      * Returns a string representation of the Course object in the format "name (code)".
@@ -59,6 +59,9 @@ public class Course {
      */
     @Override
     public String toString() {
+        if (code == null || name == null) {
+            return "(Select)";
+        }
         return name + " (" + code + ")";
     }
 }
