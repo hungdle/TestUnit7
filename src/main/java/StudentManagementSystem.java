@@ -29,7 +29,7 @@ public class StudentManagementSystem {
      */
     private void initialize() {
         frame = new JFrame("Student Management System");
-        frame.setSize(600, 400);
+        frame.setSize(800, 600);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
 
@@ -111,10 +111,10 @@ public class StudentManagementSystem {
      */
     private JPanel createAddStudentPanel() {
         JPanel panel = new JPanel(new GridLayout(3, 2, 10, 10));
-        panel.add(new JLabel("Student ID:"));
+        panel.add(new JLabel("1. Student ID:"));
         JTextField studentIdField = new JTextField();
         panel.add(studentIdField);
-        panel.add(new JLabel("Student Name:"));
+        panel.add(new JLabel("2. Student Name:"));
         JTextField studentNameField = new JTextField();
         panel.add(studentNameField);
         JButton addButton = new JButton("Add");
@@ -164,22 +164,22 @@ public class StudentManagementSystem {
      */
     private JPanel createUpdateStudentPanel() {
         JPanel panel = new JPanel(new GridLayout(4, 2, 10, 10));
-        JLabel selectStudentLabel = new JLabel("Select Student:");
+        JLabel selectStudentLabel = new JLabel("1. Select Student:");
         JComboBox<Student> updateStudentComboBox = new JComboBox<>(
                 studentManager.getStudents().toArray(new Student[0]));
         JLabel studentIdField = new JLabel();
         JTextField studentNameField = new JTextField();
 
-        JLabel studentIdLabel = new JLabel("Student ID:");
-        JLabel studentNameLabel = new JLabel("Student Name:");
+        JLabel studentIdLabel = new JLabel("Current Student ID:");
+        JLabel studentNameLabel = new JLabel("Edit Student Name:");
         JButton updateButton = new JButton("Update");
 
         updateStudentComboBox.addActionListener(e -> {
             Student selectedStudent = (Student) updateStudentComboBox.getSelectedItem();
-            if (selectedStudent != null && "(Select)".equals(selectedStudent.toString())) {
+            if (selectedStudent == null) {
                 studentIdField.setText("");
                 studentNameField.setText("");
-            } else if (selectedStudent != null) {
+            } else {
                 studentIdField.setText(selectedStudent.getId());
                 studentNameField.setText(selectedStudent.getName());
             }
@@ -208,6 +208,7 @@ public class StudentManagementSystem {
                 JOptionPane.showMessageDialog(frame, "Student updated successfully", "Success",
                         JOptionPane.INFORMATION_MESSAGE);
                 updateStudentTable();
+                refreshUpdateStudentComboBox();
             }
         });
 
@@ -234,9 +235,9 @@ public class StudentManagementSystem {
      */
     private JPanel createAddCoursePanel() {
         JPanel panel = new JPanel(new GridLayout(3, 2, 10, 10));
-        JLabel courseCodeLabel = new JLabel("Course Code:");
+        JLabel courseCodeLabel = new JLabel("1. Course Code:");
         JTextField courseCodeField = new JTextField();
-        JLabel courseNameLabel = new JLabel("Course Name:");
+        JLabel courseNameLabel = new JLabel("2. Course Name:");
         JTextField courseNameField = new JTextField();
         JButton addButton = new JButton("Add");
 
@@ -273,15 +274,15 @@ public class StudentManagementSystem {
      */
     private JPanel createEnrollStudentPanel() {
         JPanel panel = new JPanel(new GridLayout(3, 2, 10, 10));
-        JLabel courseLabel = new JLabel("Select Course:");
+        JLabel courseLabel = new JLabel("1. Select Course:");
         JComboBox<Course> courseComboBox = new JComboBox<>();
-        JLabel studentLabel = new JLabel("Select Student:");
+        JLabel studentLabel = new JLabel("2. Select Student:");
         JComboBox<Student> studentComboBox = new JComboBox<>();
         JButton enrollButton = new JButton("Enroll");
 
-        // Initialize courseComboBox with "(Select)" option
+        // Initialize courseComboBox
         DefaultComboBoxModel<Course> courseModel = new DefaultComboBoxModel<>();
-        courseModel.addElement(new Course(null, "(Select)"));
+        courseModel.addElement(new Course(null, null));
         for (Course course : studentManager.getCourses()) {
             courseModel.addElement(course);
         }
@@ -296,7 +297,7 @@ public class StudentManagementSystem {
             } else {
                 List<Student> unEnrolledStudents = studentManager.getUnEnrolledStudents(selectedCourse.getCode());
                 DefaultComboBoxModel<Student> studentModel = new DefaultComboBoxModel<>();
-                studentModel.addElement(new Student(null, "(Select)")); // Add "(Select)" option
+                studentModel.addElement(new Student(null, null)); // Add "(Select)" option
                 for (Student student : unEnrolledStudents) {
                     studentModel.addElement(student);
                 }
@@ -339,17 +340,16 @@ public class StudentManagementSystem {
         JPanel panel = new JPanel(new GridLayout(5, 2, 10, 10)); // GridLayout with gaps
 
         // Panel for student selection
-        JLabel selectedStudentLabel = new JLabel("Select Student:");
+        JLabel selectedStudentLabel = new JLabel("1. Select Student:");
         JComboBox<Student> gradeStudentComboBox = new JComboBox<>();
-        gradeStudentComboBox.addItem(new Student(null, "(Select)"));
+        gradeStudentComboBox.addItem(new Student(null, null));
 
         // Table for enrolled course names
-        String[] courseColumnNames = { "Enrolled Course" };
+        String[] courseColumnNames = { "Enrolled Courses" };
         DefaultTableModel courseTableModel = new DefaultTableModel(courseColumnNames, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                // Make the cells non-editable
-                return false;
+                return false; // Make the cells non-editable
             }
         };
         JTable courseTable = new JTable(courseTableModel);
@@ -360,17 +360,16 @@ public class StudentManagementSystem {
         DefaultTableModel gradeTableModel = new DefaultTableModel(gradeColumnNames, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                // Make the cells non-editable
-                return false;
+                return false; // Make the cells non-editable
             }
         };
         JTable gradeTable = new JTable(gradeTableModel);
         JScrollPane gradeScrollPane = new JScrollPane(gradeTable);
 
         // Panel for course selection
-        JLabel selectCourseLabel = new JLabel("Select Course:");
+        JLabel selectCourseLabel = new JLabel("2. Select Course:");
         JComboBox<Course> gradeCourseComboBox = new JComboBox<>();
-        gradeCourseComboBox.addItem(new Course(null, "(Select)"));
+        gradeCourseComboBox.addItem(new Course(null, null));
 
         // Panel for grade input
         JLabel updateGradeLabel = new JLabel("Update Grade:");
@@ -396,12 +395,12 @@ public class StudentManagementSystem {
             Course selectedCourse = (Course) gradeCourseComboBox.getSelectedItem();
             String newGrade = gradeField.getText();
 
-            if (selectedStudent == null || "(Select)".equals(selectedStudent.getName())) {
+            if (selectedStudent == null || selectedStudent.getId() == null) {
                 JOptionPane.showMessageDialog(frame, "Please select a student", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
-            if (selectedCourse == null || "(Select)".equals(selectedCourse.getName())) {
+            if (selectedCourse == null || selectedCourse.getCode() == null) {
                 JOptionPane.showMessageDialog(frame, "Please select a course", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
@@ -417,8 +416,8 @@ public class StudentManagementSystem {
             JOptionPane.showMessageDialog(frame, "Grade assigned successfully", "Success",
                     JOptionPane.INFORMATION_MESSAGE);
 
-            // Refresh the grade table
-            refreshGradeTable(selectedStudent, gradeTableModel);
+            // Refresh the course and grade tables
+            refreshGradeTable(selectedStudent, courseTableModel, gradeTableModel);
 
             // Clear text fields
             gradeField.setText("");
@@ -427,28 +426,16 @@ public class StudentManagementSystem {
         // Action listener for the student combo box
         gradeStudentComboBox.addActionListener(e -> {
             Student selectedStudent = (Student) gradeStudentComboBox.getSelectedItem();
-            if (selectedStudent != null && !"(Select)".equals(selectedStudent.getName())) {
-                List<Course> enrolledCourses = studentManager.getEnrolledCourses(selectedStudent.getId());
-                courseTableModel.setRowCount(0); // Clear previous data
-                gradeTableModel.setRowCount(0); // Clear previous data
-                for (Course course : enrolledCourses) {
-                    String currentGrade = studentManager.getGrade(selectedStudent.getId(), course.getCode());
-                    courseTableModel.addRow(new Object[] { course.getName() });
-                    gradeTableModel.addRow(new Object[] { currentGrade });
-                }
-
-                // Update courseComboBox
-                DefaultComboBoxModel<Course> courseModel = new DefaultComboBoxModel<>();
-                courseModel.addElement(new Course(null, "(Select)"));
-                for (Course course : enrolledCourses) {
-                    courseModel.addElement(course);
-                }
-                gradeCourseComboBox.setModel(courseModel);
+            if (selectedStudent != null && selectedStudent.getId() != null) {
+                refreshGradeCourseComboBox(selectedStudent, gradeCourseComboBox);
+                refreshGradeTable(selectedStudent, courseTableModel, gradeTableModel);
+                gradeField.setText("");
             } else {
-                // Clear course table and combo box if "(Select)" is chosen
+                // Clear course and grade tables, and reset combo box if "(Select)" is chosen
                 courseTableModel.setRowCount(0);
                 gradeTableModel.setRowCount(0);
-                gradeCourseComboBox.setModel(new DefaultComboBoxModel<>(new Course[] { new Course(null, "(Select)") }));
+                gradeCourseComboBox.setModel(new DefaultComboBoxModel<>(new Course[] { new Course(null, null) }));
+                gradeField.setText("");
             }
         });
 
@@ -456,24 +443,7 @@ public class StudentManagementSystem {
     }
 
 
-
-    /**
-     * Refreshes the grade table for a given student.
-     *
-     * @param student         the student whose grades to display
-     * @param gradeTableModel the model of the grade table
-     */
-    private void refreshGradeTable(Student student, DefaultTableModel gradeTableModel) {
-        if (student != null) {
-            List<Course> enrolledCourses = studentManager.getEnrolledCourses(student.getId());
-            gradeTableModel.setRowCount(0); // Clear previous data
-            for (Course course : enrolledCourses) {
-                String currentGrade = studentManager.getGrade(student.getId(), course.getCode());
-                gradeTableModel.addRow(new Object[] { currentGrade });
-            }
-        }
-    }
-
+    
     /**
      * Updates the student table with the latest data.
      */
@@ -544,35 +514,66 @@ public class StudentManagementSystem {
 
         // Access the JComboBoxes within the panel directly
         JComboBox<Student> gradeStudentComboBox = (JComboBox<Student>) gradeManagementPanel.getComponent(1);
-        JComboBox<Course> gradeCourseComboBox = (JComboBox<Course>) gradeManagementPanel.getComponent(5);
 
-        // Refresh the studentComboBox with the latest student data
+        // Refresh the studentComboBox with the latest student data and add default "(Select)" option
         DefaultComboBoxModel<Student> studentModel = new DefaultComboBoxModel<>();
-        studentModel.addElement(new Student(null, "(Select)"));
+        studentModel.addElement(new Student(null, null));
         for (Student student : studentManager.getStudents()) {
             studentModel.addElement(student);
         }
         gradeStudentComboBox.setModel(studentModel);
 
-        // Clear the courseComboBox initially
-        gradeCourseComboBox.setModel(new DefaultComboBoxModel<>(new Course[] { new Course(null, "(Select)") }));
+        // Reset all fields and tables
+        JComboBox<Course> gradeCourseComboBox = (JComboBox<Course>) gradeManagementPanel.getComponent(5);
+        JTable courseTable = (JTable) ((JScrollPane) gradeManagementPanel.getComponent(2)).getViewport().getView();
+        JTable gradeTable = (JTable) ((JScrollPane) gradeManagementPanel.getComponent(3)).getViewport().getView();
+        JTextField gradeField = (JTextField) gradeManagementPanel.getComponent(7);
 
-        // Add an action listener to update the course combo box when a student is selected
-        gradeStudentComboBox.addActionListener(e -> {
-            Student selectedStudent = (Student) gradeStudentComboBox.getSelectedItem();
-            if (selectedStudent != null && !"(Select)".equals(selectedStudent.getName())) {
-                List<Course> enrolledCourses = studentManager.getEnrolledCourses(selectedStudent.getId());
-                DefaultComboBoxModel<Course> courseModel = new DefaultComboBoxModel<>();
-                courseModel.addElement(new Course(null, "(Select)"));
-                for (Course course : enrolledCourses) {
-                    courseModel.addElement(course);
-                }
-                gradeCourseComboBox.setModel(courseModel);
-            } else {
-                // Clear courseComboBox if no student or "(Select)" is selected
-                gradeCourseComboBox.setModel(new DefaultComboBoxModel<>(new Course[] { new Course(null, "(Select)") }));
-            }
-        });
+        gradeCourseComboBox.setModel(new DefaultComboBoxModel<>(new Course[] { new Course(null, null) }));
+        ((DefaultTableModel) courseTable.getModel()).setRowCount(0);
+        ((DefaultTableModel) gradeTable.getModel()).setRowCount(0);
+        gradeField.setText("");
     }
 
+    /**
+     * Refreshes the course and grade tables for a given student.
+     *
+     * @param student         the student whose courses and grades to display
+     * @param courseTableModel the model of the course table
+     * @param gradeTableModel the model of the grade table
+     */
+    private void refreshGradeTable(Student student, DefaultTableModel courseTableModel, DefaultTableModel gradeTableModel) {
+        if (student != null) {
+            List<Course> enrolledCourses = studentManager.getEnrolledCourses(student.getId());
+
+            // Update enrolled courses table
+            courseTableModel.setRowCount(0); // Clear previous data
+            for (Course course : enrolledCourses) {
+                courseTableModel.addRow(new Object[] { course.getName() });
+            }
+
+            // Update grades table
+            gradeTableModel.setRowCount(0); // Clear previous data
+            for (Course course : enrolledCourses) {
+                String currentGrade = studentManager.getGrade(student.getId(), course.getCode());
+                gradeTableModel.addRow(new Object[] { currentGrade });
+            }
+        }
+    }
+
+    /**
+     * Refreshes the course combo box based on the selected student.
+     *
+     * @param student            the selected student
+     * @param gradeCourseComboBox the combo box to refresh
+     */
+    private void refreshGradeCourseComboBox(Student student, JComboBox<Course> gradeCourseComboBox) {
+        List<Course> enrolledCourses = studentManager.getEnrolledCourses(student.getId());
+        DefaultComboBoxModel<Course> courseModel = new DefaultComboBoxModel<>();
+        courseModel.addElement(new Course(null, null));
+        for (Course course : enrolledCourses) {
+            courseModel.addElement(course);
+        }
+        gradeCourseComboBox.setModel(courseModel);
+    }
 }
